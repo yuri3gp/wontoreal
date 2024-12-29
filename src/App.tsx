@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import logoDark from "./logo-dark.svg";
-import logoLight from "./logo-light.svg";
+import logoDark from "./assets/logo-dark.svg";
 
-export function Welcome() {
+export default function App() {
   const [wonValue, setWonValue] = useState<string>("");
-  const [multiplier, setMultiplier] = useState<number>(1000000000); // Definido inicialmente para Bilhões
+  const [multiplier, setMultiplier] = useState<number>(1000000000);
   const [formattedValue, setFormattedValue] = useState<string | null>(null);
 
   const formatValue = (value: number): string => {
@@ -26,39 +25,36 @@ export function Welcome() {
     }
 
     const wonInUnits = parseFloat(wonValue) * multiplier;
-    const realValue = wonInUnits * 0.0038; // Exemplo: 1 Won = 0.0038 Real
+    const realValue = wonInUnits * 0.0038;
     setFormattedValue(formatValue(realValue));
   }, [wonValue, multiplier]);
 
   return (
-    <main className="flex items-center justify-center pt-16 pb-4">
-      <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500">
+      <div className="flex flex-col items-center gap-8 p-6 bg-white rounded-lg shadow-lg w-full sm:max-w-md lg:max-w-lg">
         <header className="flex flex-col items-center gap-4">
-          <h1 className="text-3xl font-bold">Conversor de Won para Real</h1>
+          <h1 className="text-3xl font-bold text-gray-800 text-center">Conversor de Won para Real</h1>
           <img
-            src={"https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_South_Korea.svg/2560px-Flag_of_South_Korea.svg.png"}
+            src={logoDark}
             alt="Logo em tema escuro"
             className="h-12 dark:block hidden"
-          />
-          <img
-            src={logoLight}
-            alt="Logo em tema claro"
-            className="h-12 block dark:hidden"
+            width={"200vw"}
+            height={"200vh"}
           />
         </header>
-        <div className="max-w-[400px] w-full space-y-6 px-4">
+        <div className="w-full space-y-6 px-4">
           <div className="flex flex-col gap-4">
             <input
               type="number"
               value={wonValue}
               onChange={(e) => setWonValue(e.target.value)}
               placeholder="Digite o valor em Won"
-              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-700"
+              className="w-full p-3 border rounded-lg border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <select
               value={multiplier}
               onChange={(e) => setMultiplier(Number(e.target.value))}
-              className="w-full p-2 border rounded-lg border-gray-300 dark:border-gray-700"
+              className="w-full p-3 border rounded-lg border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value={1000000000}>Bilhões</option>
               <option value={1000000}>Milhões</option>
@@ -67,12 +63,12 @@ export function Welcome() {
             </select>
           </div>
           {formattedValue !== null && (
-            <p className="text-center text-lg mt-4">
+            <p className="text-center text-lg mt-4 text-gray-800">
               Valor em Real: <span className="font-bold">R$ {formattedValue}</span>
             </p>
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }
