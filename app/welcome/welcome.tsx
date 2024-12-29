@@ -4,7 +4,7 @@ import logoLight from "./logo-light.svg";
 
 export function Welcome() {
   const [wonValue, setWonValue] = useState<string>("");
-  const [multiplier, setMultiplier] = useState<number>(4);
+  const [multiplier, setMultiplier] = useState<number>(1000000000); // Definido inicialmente para Bilhões
   const [formattedValue, setFormattedValue] = useState<string | null>(null);
 
   const formatValue = (value: number): string => {
