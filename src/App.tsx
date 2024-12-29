@@ -49,12 +49,12 @@ export default function App() {
               value={wonValue}
               onChange={(e) => setWonValue(e.target.value)}
               placeholder="Digite o valor em Won"
-              className="w-full p-3 border rounded-lg border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-4 border rounded-lg border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
             />
             <select
               value={multiplier}
               onChange={(e) => setMultiplier(Number(e.target.value))}
-              className="w-full p-3 border rounded-lg border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-4 border rounded-lg border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
             >
               <option value={1000000000}>Bilhões</option>
               <option value={1000000}>Milhões</option>
