@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import logoDark from "./assets/logo-dark.svg";
-import "./tailwind.css"
+import "./tailwind.css";
 
 export default function App() {
   const [wonValue, setWonValue] = useState<string>("");
   const [multiplier, setMultiplier] = useState<number>(1000000000);
   const [formattedValue, setFormattedValue] = useState<string | null>(null);
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null); // Para armazenar a cotação
 
+  // Função para formatar o valor
   const formatValue = (value: number): string => {
     if (value >= 1_000_000_000) {
       return `${(value / 1_000_000_000).toFixed(2).replace(".", ",")} bilhões`;
@@ -19,16 +21,36 @@ export default function App() {
     }
   };
 
+  // Função para buscar a cotação atual do Won
+  const fetchExchangeRate = async () => {
+    try {
+      const apiKey = import.meta.env.VITE_API_KEY; // Acessando a chave da API do arquivo .env
+      const response = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/KRW`);
+      const data = await response.json();
+      if (data && data.conversion_rates && data.conversion_rates.BRL) {
+        setExchangeRate(data.conversion_rates.BRL); // Atualiza a cotação
+      }
+    } catch (error) {
+      console.error("Erro ao buscar a cotação:", error);
+    }
+  };
+
+  // Efeito para buscar a cotação quando o componente for montado
   useEffect(() => {
-    if (!wonValue) {
+    fetchExchangeRate();
+  }, []);
+
+  // Efeito para calcular o valor formatado quando o Won ou a cotação mudarem
+  useEffect(() => {
+    if (!wonValue || exchangeRate === null) {
       setFormattedValue(null);
       return;
     }
 
     const wonInUnits = parseFloat(wonValue) * multiplier;
-    const realValue = wonInUnits * 0.0038;
+    const realValue = wonInUnits * exchangeRate; // Agora usa a cotação dinâmica
     setFormattedValue(formatValue(realValue));
-  }, [wonValue, multiplier]);
+  }, [wonValue, multiplier, exchangeRate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500">
