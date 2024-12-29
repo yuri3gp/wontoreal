@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import logoDark from "./assets/logo-dark.svg";
+import "./tailwind.css"
 
 export default function App() {
   const [wonValue, setWonValue] = useState<string>("");
